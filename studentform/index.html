@@ -1,1 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student Registration</title>
+<style>
+  :root { --ink:#1d2b3a; --paper:#f3f6f9; --card:#ffffff; --line:#c9d3dd; --accent:#0b5c8f; --ok:#1e7a46; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Georgia, "Times New Roman", serif; color:var(--ink); background:var(--paper); line-height:1.6; }
+  header { background:var(--accent); color:#fff; padding:28px 20px; }
+  header h1 { margin:0; font-size:1.7rem; }
+  header p { margin:4px 0 0; opacity:.9; }
+  main { max-width:620px; margin:24px auto; padding:0 16px; }
+  form, .done { background:var(--card); border:1px solid var(--line); border-radius:6px; padding:24px; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  label { display:block; margin-top:16px; font-weight:bold; font-size:.95rem; }
+  input, select, textarea { width:100%; margin-top:6px; padding:10px; font:inherit; border:1px solid var(--line); border-radius:4px; background:#fff; }
+  input:focus, select:focus, textarea:focus, button:focus-visible { outline:3px solid #7fb6dc; outline-offset:1px; }
+  button { margin-top:24px; padding:12px 24px; font:inherit; font-weight:bold; color:#fff; background:var(--accent); border:0; border-radius:4px; cursor:pointer; }
+  button:hover { background:#094a73; }
+  .done { display:none; border-color:var(--ok); }
+  .done h2 { margin-top:0; color:var(--ok); }
+  dl { display:grid; grid-template-columns:max-content 1fr; gap:6px 16px; }
+  dt { font-weight:bold; }
+  dd { margin:0; word-break:break-word; }
+  .note { font-size:.85rem; color:#4a5a6a; margin-top:16px; }
+  /* Responsive design (section 7.4): media query stacks the two-column rows on phones */
+  @media (max-width:520px) { .row { grid-template-columns:1fr; gap:0; } header h1 { font-size:1.4rem; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Student Registration</h1>
+  <p>Demo form for the Web Hosting lesson</p>
+</header>
+<main>
+  <form id="reg">
+    <div class="row">
+      <label>First name <input name="First name" required></label>
+      <label>Last name <input name="Last name" required></label>
+    </div>
+    <div class="row">
+      <label>Date of birth <input type="date" name="Date of birth" required></label>
+      <label>Class
+        <select name="Class" required>
+          <option value="">Choose</option>
+          <option>XI</option>
+          <option>XII</option>
+        </select>
+      </label>
+    </div>
+    <label>Group
+      <select name="Group" required>
+        <option value="">Choose</option>
+        <option>Computer Science</option>
+        <option>Computer Application</option>
+        <option>Other</option>
+      </select>
+    </label>
+    <label>Email <input type="email" name="Email" required></label>
+    <label>Address <textarea name="Address" rows="3"></textarea></label>
+    <button type="submit">Register</button>
+    <p class="note">Classroom demo only. Use made-up details; nothing is stored or sent.</p>
+  </form>
 
+  <section class="done" id="done" aria-live="polite">
+    <h2>Registration received</h2>
+    <dl id="out"></dl>
+    <p class="note">This page ran in your browser. The server only delivered the file.</p>
+  </section>
+</main>
+<script>
+  document.getElementById('reg').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var out = document.getElementById('out');
+    out.textContent = '';
+    new FormData(this).forEach(function (value, key) {
+      var dt = document.createElement('dt'); dt.textContent = key;
+      var dd = document.createElement('dd'); dd.textContent = value || '-';
+      out.appendChild(dt); out.appendChild(dd);
+    });
+    this.style.display = 'none';
+    document.getElementById('done').style.display = 'block';
+  });
+</script>
+</body>
+</html>
